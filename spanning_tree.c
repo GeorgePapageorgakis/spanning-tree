@@ -18,7 +18,7 @@
 #define TRUE 1
 #define FALSE 0
 
-int lvl, root, nocycle=FALSE;
+int lvl, root, nocycle = FALSE;
 
 struct node{
 	int i, j, level, father, active;
@@ -30,7 +30,7 @@ struct node{
     Inserts node in the horizontal indexing.	
 */
 void insert_horizontal(struct node *aux, struct node *temp){
-    if (temp->j > aux->j){
+    	if (temp->j > aux->j){
 		/* if next of aux is not null but there are other elements still to compare with temp
 		the function takes the next structure that is being pointed by aux and the node that
 		is already in temp.
@@ -40,17 +40,17 @@ void insert_horizontal(struct node *aux, struct node *temp){
 			insert_horizontal(aux->next, temp);
 		else{
 			temp->previous	= aux;
-			aux->next		= temp;
+			aux->next	= temp;
 		}
 	}
 	/* else the temp is placed left of aux, the next of the previous struct 
 	of aux must point to temp and aux->previous must show the new struct
 	*/
-    else if (temp->j < aux->j){
-		temp->previous		= aux->previous;
-		temp->next			= aux;
+    	else if (temp->j < aux->j){
+		temp->previous	    = aux->previous;
+		temp->next	    = aux;
 		aux->previous->next = temp;			
-		aux->previous		= temp;
+		aux->previous	    = temp;
 	}
 }
 
@@ -59,8 +59,8 @@ void insert_horizontal(struct node *aux, struct node *temp){
     Inserts node in the vertical indexing.	
 */
 void insert_vertical(int *p_check, struct node *aux, struct node *temp){
-   *p_check = 0;
-    if (temp->i > aux->i){
+	*p_check = 0;
+	if (temp->i > aux->i){
 		/* if down of aux is not null but there are other elements still to compare with temp
 		the function takes the structure beneath that is being pointed by aux and the node that
 		is already in temp.
@@ -70,23 +70,23 @@ void insert_vertical(int *p_check, struct node *aux, struct node *temp){
 		if (aux->down != NULL)
 			insert_vertical(p_check, aux->down, temp);
 		else{
-			temp->up  	= aux;
-			aux->down 	= temp;
+			temp->up  = aux;
+			aux->down = temp;
 		}
 	}
 	/* else if temp is placed above the aux, the temp->up must point to where aux
 	was pointing to, temp->down must point to aux, the down of the upper structure 
 	of aux must point to temp and the aux->up must point to the new struct.
 	*/
-    else if (temp->i < aux->i){
-		temp->up		= aux->up;
-		temp->down		= aux;
+	else if (temp->i < aux->i){
+		temp->up	= aux->up;
+		temp->down	= aux;
 		aux->up->down	= temp;
-		aux->up			= temp;
+		aux->up		= temp;
 	}
 	//avoid insertion of same element, also works as diagonal index checking
-    else
-        *p_check = 1;
+	else
+        	*p_check = 1;
 }
 
 
@@ -95,17 +95,17 @@ void insert_vertical(int *p_check, struct node *aux, struct node *temp){
 */
 void delete_node(struct node *aux){
 	if (aux->next != NULL){
-        aux->previous->next	= aux->next;
-        aux->next->previous	= aux->previous;
-    }
+        aux->previous->next = aux->next;
+        aux->next->previous = aux->previous;
+    	}
 	else{
 		aux->previous->next =NULL;
 	}
-    if (aux->down != NULL){
+    	if (aux->down != NULL){
         aux->up->down = aux->down;
         aux->down->up = aux->up;
-    }
-    else{
+	}
+	else{
 		aux->up->down = NULL;
 	}
 	free(aux);
@@ -115,7 +115,7 @@ void delete_node(struct node *aux){
     search for the node and delete it if it exists
 */
 void search_delete(struct node *aux, int y){
-    if (aux->j != y){
+	if (aux->j != y){
 	  	//if not in the last element
 		if ((aux->j < y) && (aux->next!=NULL))
 			search_delete(aux->next, y);
@@ -124,7 +124,7 @@ void search_delete(struct node *aux, int y){
 		}
 	}
 	//else the element exists and is to be deleted
-    else{ 
+	else{ 
 		delete_node(aux);
 		printf("Edge deleted.\n"); fflush(stdout);
 	}
@@ -145,24 +145,24 @@ void display(struct node *aux){
 */
 void initialize(void){
 	int k;
-    for (k=1; k < MAX_LENGTH; ++k){
-        V[k].i			= k;
-        V[k].j			= 0;
-		V[k].level		= 0;
-        V[k].active		= FALSE;
-        V[k].next		= NULL;
-        V[k].previous	= NULL;
-        V[k].up			= NULL;
-        V[k].down		= NULL;
-        H[k].i			= 0;
-        H[k].j			= k;
-		H[k].level		= 0;
-        H[k].active		= FALSE;
-        H[k].next		= NULL;
-        H[k].previous	= NULL;
-        H[k].up			= NULL;
-        H[k].down		= NULL;
-    }
+	for (k=1; k < MAX_LENGTH; ++k){
+		V[k].i		= k;
+		V[k].j		= 0;
+		V[k].level	= 0;
+		V[k].active	= FALSE;
+		V[k].next	= NULL;
+		V[k].previous	= NULL;
+		V[k].up		= NULL;
+		V[k].down	= NULL;
+		H[k].i		= 0;
+		H[k].j		= k;
+		H[k].level	= 0;
+		H[k].active	= FALSE;
+		H[k].next	= NULL;
+		H[k].previous	= NULL;
+		H[k].up		= NULL;
+		H[k].down	= NULL;
+	}
 }
 
 
@@ -170,9 +170,9 @@ void initialize(void){
     activate the symmetric edge
 */
 void Activate_symmetric(struct node *aux1, int y){
-    if (((aux1->j) < y) && ((aux1->next) != NULL))
+	if (((aux1->j) < y) && ((aux1->next) != NULL))
 		Activate_symmetric(aux1->next, y);
-    else
+	else
 		aux1->active = TRUE;
 }
 
@@ -182,39 +182,39 @@ void Activate_symmetric(struct node *aux1, int y){
     Set the root and form the spanning tree
 */
 void Spanning_tree(struct node *aux){
-    int k, lvlprint;
-    printf("Root:%d\n",root);
-    for (lvl=1; lvl < MAX_LENGTH-1; ++lvl){
-        lvlprint = FALSE;
+	int k, lvlprint;
+	printf("Root:%d\n",root);
+	for (lvl=1; lvl < MAX_LENGTH-1; ++lvl){
+        	lvlprint = FALSE;
 		//search the vertical array V
-        for (k=1; k < MAX_LENGTH; ++k){
-            if (V[k].level == lvl && V[k].active == FALSE){
-            	aux = &V[k];
-                while (aux->next != NULL){
-                    aux = aux->next;
+		for (k=1; k < MAX_LENGTH; ++k){
+		    	if (V[k].level == lvl && V[k].active == FALSE){
+			    	aux = &V[k];
+			        while (aux->next != NULL){
+			            	aux = aux->next;
 					//include the node or not
-                    if (aux->active == FALSE && H[aux->j].active == FALSE){
-                        aux->active		 = TRUE;
-                        H[aux->j].active = TRUE;
-                        H[aux->j].father = aux->i;
-                        V[aux->j].level	 = lvl + 1;
+			            	if (aux->active == FALSE && H[aux->j].active == FALSE){
+						aux->active	 = TRUE;
+						H[aux->j].active = TRUE;
+						H[aux->j].father = aux->i;
+						V[aux->j].level	 = lvl + 1;
 						//for activation of the symmetric edge
-                        Activate_symmetric(&V[aux->j], aux->i);
-                        if (lvlprint == FALSE){
-                        	printf("Level %d: ",lvl);
-                        	lvlprint = TRUE;
-                        }
-                        printf("{%d}", aux->j);
-                        printf("(%d,%d)", aux->i, aux->j);
-                        printf("/(%d,%d),\t", aux->j, aux->i);
-                    }
-                }
-                V[k].active = TRUE;	//to avoid checking on the same row
-            }
-        }
+						Activate_symmetric(&V[aux->j], aux->i);
+						if (lvlprint == FALSE){
+							printf("Level %d: ",lvl);
+							lvlprint = TRUE;
+						}
+						printf("{%d}", aux->j);
+						printf("(%d,%d)", aux->i, aux->j);
+						printf("/(%d,%d),\t", aux->j, aux->i);
+			            	}
+			        }
+			        V[k].active = TRUE;	//to avoid checking on the same row
+			}
+		}
 		if (lvlprint == TRUE)
 			printf("\n");
-    }
+	}
 	printf("\n");
 }
 
@@ -236,7 +236,7 @@ void find_cycle(int x, int y){
 	m = 0;
 	while (H[x].j != root){		// && (H[x].father!=root))
 		A[m] = H[x].j;			
-		x 	 = H[x].father;
+		x    = H[x].father;
 		++m;
 	}
 	if (H[x].j == root)
@@ -246,7 +246,7 @@ void find_cycle(int x, int y){
 	e = 0;
 	while (H[y].j != root){
 		B[e] = H[y].j;
-		y	 = H[y].father;
+		y    = H[y].father;
 		++e;
 	}
 	if (H[y].j == root)
@@ -285,29 +285,29 @@ void ST_cycles(struct node *aux){
 int main (void){
 	int k, x, y, check = 0, *p_check = &check;
 	initialize();
-    char ch = '*';
+    	char ch = '*';
 	while (ch!='0'){
 		fflush(stdin);
-        x=0; y=0;
+		x=0; y=0;
 		printf("1.Insert Edges\t2.Print Edges\t3.Delete Edges\n4.Spanning Tree\t5.ST Cycles\t0.Quit\n");fflush(stdout);
 		ch = getchar();
-        if (ch == '1'){
+		if (ch == '1'){
 			if ((temp = (struct node *) malloc(sizeof(struct node))) != NULL){
 				temp->previous	= NULL;
-				temp->next		= NULL;
-				temp->up		= NULL;
-				temp->down		= NULL;
+				temp->next	= NULL;
+				temp->up	= NULL;
+				temp->down	= NULL;
 				temp->active	= FALSE;
 				temp->father	= 0;
-				temp->level		= 0;
-				temp->i			= 0;
-				temp->j			= 0;
+				temp->level	= 0;
+				temp->i		= 0;
+				temp->j		= 0;
 				printf("Input node(1-%d) i:\n", MAX_LENGTH-1);
 				scanf("%d", &temp->i);
 				printf("node j:\n");
 				scanf("%d", &temp->j);
-                if (temp->i>0 && temp->j>0 && temp->i < MAX_LENGTH && temp->j < MAX_LENGTH){
-                    if (temp->i != temp->j){
+			        if (temp->i>0 && temp->j>0 && temp->i < MAX_LENGTH && temp->j < MAX_LENGTH){
+			            	if (temp->i != temp->j){
 						insert_horizontal(&V[temp->i],temp);   //start from row i
 						insert_vertical(p_check, &H[temp->j], temp);
 						x = temp->i;
@@ -321,29 +321,29 @@ int main (void){
 					}
 					else
 						printf("Self cycle Edge not inserted\n");
-                }
-                else
-                       printf("Edge cordinates out of range\n");
-            }
-            else{
+	        		}
+	        		else
+	               			printf("Edge cordinates out of range\n");
+			}
+			else{
 				printf("Memory is Full");
 			}
 			
-            if (x != y){
+			if (x != y){
 				//forbids double insertion of diagonal nodes
 				if (check == 0){
 					if ((temp = (struct node *) malloc(sizeof(struct node))) != NULL){
 						temp->previous	= NULL;
-						temp->next		= NULL;
-						temp->up		= NULL;
-						temp->down		= NULL;
+						temp->next	= NULL;
+						temp->up	= NULL;
+						temp->down	= NULL;
 						temp->active	= FALSE;
 						temp->father	= 0;
-						temp->level		= 0;
-						temp->i			= 0;
-						temp->j			= 0;
-						temp->i			= y;
-						temp->j			= x;
+						temp->level	= 0;
+						temp->i		= 0;
+						temp->j		= 0;
+						temp->i		= y;
+						temp->j		= x;
 						insert_horizontal(&V[temp->i], temp);
 						insert_vertical(p_check, &H[temp->j], temp);
 					}
@@ -353,10 +353,10 @@ int main (void){
 				else
 					printf("Edge already registered\n");
 			}
-
+	
 		}
 		else if (ch == '2'){
-            fflush(stdout);
+	    		fflush(stdout);
 			printf("______________________________________________________________________________\n\n");
 			for (k=1; k < MAX_LENGTH; ++k){
 				display(V[k].next);
@@ -366,7 +366,7 @@ int main (void){
 			printf("_______________________________________________________________________________\n");
 		}
 		else if (ch == '3'){
-			printf("Which edge do you want to delete?\ni=");	fflush(stdout);
+			printf("Which edge do you want to delete?\ni="); fflush(stdout);
 			scanf("%d", &x);
 			printf("j="); fflush(stdout);
 			scanf("%d", &y);
@@ -374,19 +374,19 @@ int main (void){
 			search_delete(&V[y], x);
 		}
 		else if (ch == '4'){
-			printf("Insert Root Node:\n");	fflush(stdout);
+			printf("Insert Root Node:\n"); fflush(stdout);
 			scanf("%d", &root);
 			V[root].level  = 1;
 			H[root].father = root;
 			H[root].active = TRUE;
 			Spanning_tree(&V[root]);
 		}
-        else if (ch == '5'){
+		else if (ch == '5'){
 			for (k=1; k < MAX_LENGTH; ++k)
 				ST_cycles(&V[k]);
 			if (nocycle == FALSE)
 				printf("Tree has no cycles.\n");
-        }
-    }
+		}
+	}
     return 0;
 }
